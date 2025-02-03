@@ -3,73 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Juros Compostos</title>
+    <title>Simulador de Juros Compostos</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #ececec;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
         }
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            width: 300px;
+        .box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
         }
-        input {
+        input, button {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            padding: 8px;
+            margin-top: 10px;
             border: 1px solid #ccc;
+            border-radius: 5px;
         }
         button {
-            padding: 10px;
-            width: 100%;
-            background-color: #007bff;
+            background: #28a745;
             color: white;
-            border: none;
-            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
         }
-        .result {
-            margin-top: 20px;
-            text-align: center;
+        button:hover {
+            background: #218838;
+        }
+        .output {
+            margin-top: 15px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Calculadora de Juros Compostos</h2>
-        <input type="number" id="capital" placeholder="Capital Inicial (R$)" />
-        <input type="number" id="taxa" placeholder="Taxa de Juros (%)" />
-        <input type="number" id="tempo" placeholder="Tempo (meses)" />
-        <button onclick="calcularJuros()">Calcular Juros Compostos</button>
-        <div id="resultado" class="result"></div>
+    <div class="box">
+        <h3>Simulador de Juros Compostos</h3>
+        <input type="number" id="valorInicial" placeholder="Valor Inicial (R$)">
+        <input type="number" id="percentual" placeholder="Taxa (%) ao mês">
+        <input type="number" id="periodo" placeholder="Quantidade de meses">
+        <button onclick="simular()">Calcular</button>
+        <div id="resultado" class="output"></div>
     </div>
 
     <script>
-        function calcularJuros() {
-            const capital = parseFloat(document.getElementById('capital').value);
-            const taxa = parseFloat(document.getElementById('taxa').value) / 100;
-            const tempo = parseInt(document.getElementById('tempo').value);
+        function simular() {
+            let valor = parseFloat(document.getElementById('valorInicial').value);
+            let taxa = parseFloat(document.getElementById('percentual').value) / 100;
+            let meses = parseInt(document.getElementById('periodo').value);
 
-            if (isNaN(capital) || isNaN(taxa) || isNaN(tempo) || capital <= 0 || taxa <= 0 || tempo <= 0) {
-                alert("Por favor, insira valores válidos.");
+            if (!valor || !taxa || !meses || valor <= 0 || taxa <= 0 || meses <= 0) {
+                alert("Informe valores válidos!");
                 return;
             }
 
-            const montante = capital * Math.pow(1 + taxa, tempo);
-            const juros = montante - capital;
+            let total = valor * Math.pow(1 + taxa, meses);
+            let lucro = total - valor;
 
             document.getElementById('resultado').innerHTML = `
-                <p>Montante Final: R$ ${montante.toFixed(2)}</p>
-                <p>Juros Ganho: R$ ${juros.toFixed(2)}</p>
+                <p>Total acumulado: R$ ${total.toFixed(2)}</p>
+                <p>Juros ganhos: R$ ${lucro.toFixed(2)}</p>
             `;
         }
     </script>
